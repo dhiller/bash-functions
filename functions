@@ -1,5 +1,5 @@
 function set_javahome() {
-	JDK_PATH=$(find /usr/lib/jvm -maxdepth 1 -name "*$1*"|sort -r|head -1)
+	JDK_PATH=$(find /usr/lib/jvm -maxdepth 1 -type d -name "*$1*"|sort -r|head -1)
 	if [ "$JDK_PATH" != "" ]; then
 		export JAVA_HOME="$JDK_PATH"
 		echo "Java home set to $JAVA_HOME"
@@ -9,7 +9,7 @@ function set_javahome() {
 }
 
 function set_jdk() {
-	JDK_PATH=$(find /usr/lib/jvm -maxdepth 1 -name "*$1*"|sort -r|head -1)
+	JDK_PATH=$(find /usr/lib/jvm -maxdepth 1 -type d -name "*$1*"|sort -r|head -1)
 	if [ "$JDK_PATH" != "" ]; then
 		cwd=$(pwd)
 		cd /usr/lib/jvm/
@@ -24,7 +24,7 @@ function set_jdk() {
 }
 
 function set_maven() {
-	MVN_PATH=$(find /usr/share -maxdepth 1 -name "*maven*" -name "*$1*" -not -name "maven-repo" | sort -r | head -1)
+	MVN_PATH=$(find /usr/share -maxdepth 1 -type d -name "*maven*" -name "*$1*" -not -name "maven-repo" | sort -r | head -1)
 	if [ "$MVN_PATH" != "" ]; then
                 cwd=$(pwd)
                 cd /usr/share
