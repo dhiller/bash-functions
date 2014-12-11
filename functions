@@ -38,4 +38,3 @@ function set_maven() {
                 echo "No match found for 'maven-$1' in /usr/share directory"
 	fi
 }
-
