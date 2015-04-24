@@ -4,6 +4,8 @@ set -e
 
 CWD=$(pwd)
 
+# Fetch and/or update all public stash repositories
+
 cd /var/opengrok/src/
 
 curl "http://stash/rest/api/1.0/projects" > temp.txt
@@ -26,6 +28,10 @@ done
 
 rm -f temp.txt
 
+# rebuild indices
 /usr/share/opengrok-0.12.1.1/bin/OpenGrok index
+
+# Reindexing only didn't update list of projects
+service tomcat restart
 
 cd "$CWD"
