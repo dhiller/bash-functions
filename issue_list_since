@@ -1,0 +1,9 @@
+#!/bin/bash
+
+for issue in $(git issues "$1"..); do
+    subject=$(curl -s -u"$user_auth" \
+            'http://bugtracking.wkd.wolterskluwer.de/rest/api/latest/issue/'$issue|\
+            grep -o -P '"summary":"(.*?)",'|head -1|\
+            sed 's/"summary":"//g'|sed 's/[\]//g'i|sed 's/",$//g')
+    printf '%s: %s\n' "$issue" "$subject"
+done;
