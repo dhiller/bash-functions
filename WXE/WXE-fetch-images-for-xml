@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ ! -f "$1" ]; then
+    echo "$1 is not a file!"
+    exit 1
+fi
+
+for name in $(xmllint --format /home/dhiller/Downloads/Elektronikversicherung_07112_1777.01.01.xml | grep -o -P '<verknuepfung-mit-objekt.*>' | grep -o -P 'name="([^"]+)"'|sed 's/name="//g'|sed 's/"$//g'); 
+do 
+    echo "Trying to fetch image $name"
+    curl -I -s -u $user_auth http://xeditor-dev/images/$name | grep -P '^(HTTP|Content)'
+done;

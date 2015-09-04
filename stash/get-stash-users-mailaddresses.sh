@@ -1,5 +1,4 @@
-. $HOME/.wkd/stash
-curl -u $stash_username:$stash_password -X GET \
+curl -u "$user_auth" -X GET \
 	-H "Accept: application/json" \
 	-H "Content-Type: application/json" \
 	"http://stash.wkd.wolterskluwer.de/rest/api/1.0/admin/users" 2> /dev/null | \
