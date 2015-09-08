@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 branch_to_check=master
 if [ $(git branch -l|grep develop|wc -l) -ne 0 ]; then
     branch_to_check=develop

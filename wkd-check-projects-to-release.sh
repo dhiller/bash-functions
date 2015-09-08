@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 for project in $(cat ~/bin/wkd-projects.txt);
 do
     echo "Checking $project"
