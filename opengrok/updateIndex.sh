@@ -6,9 +6,9 @@ CWD=$(pwd)
 
 # Fetch and/or update all public stash repositories
 
-cd /var/opengrok/src/
+cd /opt/opengrok/src/
 
-curl "http://stash/rest/api/1.0/projects" > temp.txt
+curl "http://stash.wkd.wolterskluwer.de/rest/api/1.0/projects" > temp.txt
 for PROJECT_URL in $(grep -e "\"href\":\"[^\"]\+\"" -o temp.txt | sed s/^\"href\":\"// | sed s/\"$//); do
     PROJECT_KEY=${PROJECT_URL##*/}
     curl "http://stash/rest/api/1.0/projects/$PROJECT_KEY/repos" > "$PROJECT_KEY.txt"
@@ -19,6 +19,7 @@ for PROJECT_URL in $(grep -e "\"href\":\"[^\"]\+\"" -o temp.txt | sed s/^\"href\
             git clone "$REPO_URL"
         else
             cd "$PROJECT_DIR"
+            git fetch --all
             git pull
             cd ..
         fi
@@ -28,10 +29,12 @@ done
 
 rm -f temp.txt
 
+#./updateSVNRepos.sh
+
 # rebuild indices
-/usr/share/opengrok-0.12.1.1/bin/OpenGrok index
+/opt/opengrok/bin/OpenGrok index
 
 # Reindexing only didn't update list of projects
-service tomcat restart
+#service tomcat restart
 
 cd "$CWD"
