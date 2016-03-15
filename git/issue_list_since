@@ -11,5 +11,10 @@ for issue in $(git issues "$1"..); do
             'http://bugtracking.wkd.wolterskluwer.de/rest/api/latest/issue/'$issue|\
             grep -o -P '"summary":"(.*?)",'|head -1|\
             sed 's/"summary":"//g'|sed 's/[\]//g'i|sed 's/",$//g')
-    printf '%s: %s\n' "$issue" "$subject"
+    p_status=$(curl -s -u"$user_auth" \
+            'http://bugtracking.wkd.wolterskluwer.de/rest/api/latest/issue/'$issue|\
+            grep -o -P '"name":"(.*?)",'|tail -1|\
+            sed 's/"name":"//g'|sed 's/[\]//g'i|sed 's/",$//g')                  
+
+    printf '[%s] %s: %s\n' "$p_status" "$issue" "$subject"
 done;
