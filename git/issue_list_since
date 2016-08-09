@@ -26,7 +26,8 @@ for issue in $(git issues "$COMMIT_ID"..); do
     fi
     p_status=$(curl -s -u"$user_auth" \
             'http://bugtracking.wkd.wolterskluwer.de/rest/api/latest/issue/'$issue|\
-            grep -o -P '"name":"(.*?)",'|tail -1|\
+            grep -o -P '"status".*?"name":"(.*?)",'|tail -1|\
+            grep -o -P '"name":"(.*?)",'|\
             sed 's/"name":"//g'|sed 's/[\]//g'i|sed 's/",$//g')
     if [ "$p_status" == "" ];
     then
